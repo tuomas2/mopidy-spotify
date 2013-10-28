@@ -1,0 +1,16 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: mopidy-spotify
+Upstream-Contact: Stein Magnus Jodal <stein.magnus@jodal.no>
+Source: https://github.com/mopidy/mopidy-spotify
+
+Files: *
+Copyright: 2009-2013 Stein Magnus Jodal and contributors
+License: Apache-2.0
+ On Debian systems the full text of the Apache License (Version 2) can be found
+ in the `/usr/share/common-licenses/Apache-2.0' file.
+
+Files: debian/*
+Copyright: 2013 Stein Magnus Jodal <stein.magnus@jodal.no>
+License: Apache-2.0
+ On Debian systems the full text of the Apache License (Version 2) can be found
+ in the `/usr/share/common-licenses/Apache-2.0' file.
