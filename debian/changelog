@@ -1,10 +1,10 @@
-mopidy-spotify (1.0.1-0mopidy2) UNRELEASED; urgency=low
+mopidy-spotify (1.0.1-0mopidy2) unstable; urgency=low
 
   * Add python-setuptools to Build-Depends.
   * Convert from python-support to dh_python2.
   * Install as a private module.
 
- -- Stein Magnus Jodal <stein.magnus@jodal.no>  Wed, 30 Oct 2013 19:38:09 +0100
+ -- Stein Magnus Jodal <stein.magnus@jodal.no>  Wed, 30 Oct 2013 23:24:39 +0100
 
 mopidy-spotify (1.0.1-0mopidy1) unstable; urgency=low
 
