@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Stein Magnus Jodal <stein.magnus@jodal.no>
 Build-Depends:
     debhelper (>= 8.0.0),
+    python-setuptools,
     python-support
 Standards-Version: 3.9.4
 Homepage: http://www.mopidy.com/

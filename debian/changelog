@@ -1,3 +1,9 @@
+mopidy-spotify (1.0.1-0mopidy2) UNRELEASED; urgency=low
+
+  * Add python-setuptools to Build-Depends.
+
+ -- Stein Magnus Jodal <stein.magnus@jodal.no>  Wed, 30 Oct 2013 19:38:09 +0100
+
 mopidy-spotify (1.0.1-0mopidy1) unstable; urgency=low
 
   * Initial release
