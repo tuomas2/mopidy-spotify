@@ -1,0 +1,4 @@
+Mopidy mopidy; PEP386
+Pykka python-pykka; PEP386
+pyspotify python-spotify; PEP386
+setuptools python-setuptools; PEP386

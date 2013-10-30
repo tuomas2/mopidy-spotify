@@ -2,27 +2,16 @@ Source: mopidy-spotify
 Section: sound
 Priority: optional
 Maintainer: Stein Magnus Jodal <stein.magnus@jodal.no>
-Build-Depends:
-    debhelper (>= 8.0.0),
-    python-setuptools,
-    python-support
+Build-Depends: debhelper (>= 8.0.0), python (>= 2.7), python-setuptools
 Standards-Version: 3.9.4
 Homepage: http://www.mopidy.com/
 Vcs-Git: git://github.com/mopidy/mopidy-spotify.git
 Vcs-Browser: https://github.com/mopidy/mopidy-spotify
-XS-Python-Version: >= 2.7
 X-Python-Version: >= 2.7
-X-Python3-Version: << 3
 
 Package: mopidy-spotify
 Architecture: all
-Depends:
-    ${misc:Depends},
-    ${python:Depends},
-    mopidy (>= 0.16.0),
-    python-pykka (>= 1.1.0), python-pykka (<< 2),
-    python-setuptools,
-    python-spotify (>= 1.9), python-spotify (<< 2)
+Depends: ${misc:Depends}, ${python:Depends}
 Description: Mopidy extension for playing music from Spotify
  Mopidy is a music server which can play music from multiple sources, like your
  local hard drive, radio streams, and from Spotify and SoundCloud.
