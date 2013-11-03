@@ -1,3 +1,10 @@
+mopidy-spotify (1.0.1-0mopidy3) unstable; urgency=low
+
+  * Switch from mopidy-spotify.pydist to pydist-overrides for compatibility
+    with wheezy.
+
+ -- Stein Magnus Jodal <stein.magnus@jodal.no>  Sun, 03 Nov 2013 22:13:23 +0100
+
 mopidy-spotify (1.0.1-0mopidy2) unstable; urgency=low
 
   * Add python-setuptools to Build-Depends.
