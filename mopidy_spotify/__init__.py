@@ -5,7 +5,7 @@ import os
 from mopidy import config, ext
 
 
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 
 class Extension(ext.Extension):
@@ -24,7 +24,8 @@ class Extension(ext.Extension):
         schema['password'] = config.Secret()
         schema['bitrate'] = config.Integer(choices=(96, 160, 320))
         schema['timeout'] = config.Integer(minimum=0)
-        schema['cache_dir'] = config.Path()
+        schema['cache_dir'] = config.Path(optional=True)
+        schema['settings_dir'] = config.Path()
         return schema
 
     def get_backend_classes(self):
