@@ -1,3 +1,9 @@
+mopidy-spotify (1.0.2-0mopidy1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Stein Magnus Jodal <stein.magnus@jodal.no>  Tue, 19 Nov 2013 23:53:09 +0100
+
 mopidy-spotify (1.0.1-0mopidy3) unstable; urgency=low
 
   * Switch from mopidy-spotify.pydist to pydist-overrides for compatibility
