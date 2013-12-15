@@ -1,3 +1,9 @@
+mopidy-spotify (1.0.3-0mopidy1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Stein Magnus Jodal <stein.magnus@jodal.no>  Sun, 15 Dec 2013 21:06:53 +0100
+
 mopidy-spotify (1.0.2-0mopidy1) unstable; urgency=low
 
   * New upstream release.
