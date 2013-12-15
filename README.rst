@@ -28,6 +28,11 @@ Dependencies
 - A Spotify Premium subscription. Mopidy-Spotify **will not** work with Spotify
   Free or Spotify Unlimited, just Spotify Premium.
 
+- A non-Facebook Spotify username and password. If you created your account
+  through Facebook you'll need to create a "device password" to be able to use
+  Mopidy-Spotify. Go to http://www.spotify.com/account/set-device-password/,
+  login with your Facebook account, and follow the instructions.
+
 - ``libspotify`` >= 12, < 13. The official C library from the `Spotify
   developer site <https://developer.spotify.com/technologies/libspotify/>`_.
   The package is available as ``libspotify12`` from
@@ -89,6 +94,12 @@ Project resources
 
 Changelog
 =========
+
+v1.0.3 (2013-12-15)
+-------------------
+
+- Change search field ``track`` to ``track_name`` for compatibility with
+  Mopidy 0.17. (Fixes: mopidy/mopidy#610)
 
 v1.0.2 (2013-11-19)
 -------------------
