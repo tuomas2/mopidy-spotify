@@ -2,6 +2,7 @@ mopidy-spotify (1.0.3-0mopidy2) unstable; urgency=low
 
   * Add config file to /etc/mopidy/extensions.d for using /var/lib and
     /var/cache instead of XDG dirs when Mopidy is started from an init script.
+  * Bump Standards-Version to 3.9.5.
 
  -- Stein Magnus Jodal <stein.magnus@jodal.no>  Sun, 12 Jan 2014 02:55:05 +0100
 
