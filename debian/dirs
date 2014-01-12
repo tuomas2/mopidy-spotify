@@ -1,0 +1,3 @@
+etc/mopidy/extensions.d
+var/lib/mopidy/spotify
+var/cache/mopidy/spotify

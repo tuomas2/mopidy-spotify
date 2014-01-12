@@ -1,0 +1,25 @@
+#!/bin/sh
+# postinst script for mopidy-spotify
+
+set -e
+
+case "$1" in
+    configure)
+        # spotify.conf may contain passwords and other confidential information
+        chown mopidy:root /etc/mopidy/extensions.d/spotify.conf
+        chmod 640 /etc/mopidy/extensions.d/spotify.conf
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$'" >&2
+        exit 1
+        ;;
+
+esac
+
+#DEBHELPER#
+
+exit 0
