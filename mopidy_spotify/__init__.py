@@ -5,7 +5,7 @@ import os
 from mopidy import config, ext
 
 
-__version__ = '1.0.3'
+__version__ = '1.1.0'
 
 
 class Extension(ext.Extension):
@@ -26,8 +26,9 @@ class Extension(ext.Extension):
         schema['timeout'] = config.Integer(minimum=0)
         schema['cache_dir'] = config.Path(optional=True)
         schema['settings_dir'] = config.Path()
+        schema['toplist_countries'] = config.List(optional=True)
         return schema
 
-    def get_backend_classes(self):
+    def setup(self, registry):
         from .backend import SpotifyBackend
-        return [SpotifyBackend]
+        registry.add('backend', SpotifyBackend)

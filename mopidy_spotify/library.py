@@ -1,20 +1,57 @@
 from __future__ import unicode_literals
 
 import logging
+import threading
 import time
 import urllib
 
 import pykka
-from spotify import Link, SpotifyError
+from spotify import Link, SpotifyError, ToplistBrowser
 
 from mopidy.backends import base
-from mopidy.models import Track, SearchResult
+from mopidy.models import Ref, Track, SearchResult
 
 from . import translator
 
-logger = logging.getLogger('mopidy_spotify')
+logger = logging.getLogger(__name__)
 
-TRACK_AVAILABLE = 1
+SPOTIFY_COUNTRIES = {
+    'AD': 'Andorra',
+    'AR': 'Argentina',
+    'AT': 'Austria',
+    'AU': 'Australia',
+    'BE': 'Belgium',
+    'CH': 'Switzerland',
+    'CO': 'Colombia',
+    'CY': 'Cyprus',
+    'DE': 'Germany',
+    'DK': 'Denmark',
+    'EE': 'Estonia',
+    'ES': 'Spain',
+    'FI': 'Finland',
+    'FR': 'France',
+    'GB': 'United Kingdom',
+    'GR': 'Greece',
+    'HK': 'Hong Kong',
+    'IE': 'Ireland',
+    'IS': 'Iceland',
+    'IT': 'Italy',
+    'LI': 'Liechtenstein',
+    'LT': 'Lithuania',
+    'LU': 'Luxembourg',
+    'LV': 'Latvia',
+    'MC': 'Monaco',
+    'MX': 'Mexico',
+    'MY': 'Malaysia',
+    'NL': 'Netherlands',
+    'NO': 'Norway',
+    'NZ': 'New Zealand',
+    'PT': 'Portugal',
+    'SE': 'Sweden',
+    'SG': 'Singapore',
+    'TR': 'Turkey',
+    'TW': 'Taiwan',
+    'US': 'United States'}
 
 
 class SpotifyTrack(Track):
@@ -27,18 +64,15 @@ class SpotifyTrack(Track):
             self._spotify_track = Link.from_string(uri).as_track()
         elif track:
             self._spotify_track = track
-        self._unloaded_track = Track(uri=uri, name='[loading...]')
         self._track = None
 
     @property
     def _proxy(self):
-        if self._track:
-            return self._track
-        elif self._spotify_track.is_loaded():
+        if self._track is None:
+            if not self._spotify_track.is_loaded():
+                return translator.to_mopidy_track(self._spotify_track)
             self._track = translator.to_mopidy_track(self._spotify_track)
-            return self._track
-        else:
-            return self._unloaded_track
+        return self._track
 
     def __getattribute__(self, name):
         if name.startswith('_'):
@@ -61,9 +95,60 @@ class SpotifyTrack(Track):
 
 
 class SpotifyLibraryProvider(base.BaseLibraryProvider):
+    root_directory = Ref.directory(uri='spotify:directory', name='Spotify')
+
     def __init__(self, *args, **kwargs):
         super(SpotifyLibraryProvider, self).__init__(*args, **kwargs)
         self._timeout = self.backend.config['spotify']['timeout']
+
+        # TODO: add /artists/{top/tracks,albums/tracks} and /users?
+        self._root = [Ref.directory(uri='spotify:toplist:current',
+                                    name='Personal top tracks'),
+                      Ref.directory(uri='spotify:toplist:all',
+                                    name='Global top tracks')]
+        self._countries = []
+
+        if not self.backend.config['spotify']['toplist_countries']:
+            return
+
+        self._root.append(Ref.directory(uri='spotify:toplist:countries',
+                                        name='Country top tracks'))
+        for code in self.backend.config['spotify']['toplist_countries']:
+            code = code.upper()
+            self._countries.append(Ref.directory(
+                uri='spotify:toplist:%s' % code.lower(),
+                name=SPOTIFY_COUNTRIES.get(code, code)))
+
+    def browse(self, uri):
+        if uri == self.root_directory.uri:
+            return self._root
+
+        variant, identifier = translator.parse_uri(uri.lower())
+        if variant != 'toplist':
+            return []
+
+        if identifier == 'countries':
+            return self._countries
+
+        if identifier not in ('all', 'current'):
+            identifier = identifier.upper()
+            if identifier not in SPOTIFY_COUNTRIES:
+                return []
+
+        result = []
+        done = threading.Event()
+
+        def callback(browser, userdata):
+            for track in browser:
+                result.append(translator.to_mopidy_track_ref(track))
+            done.set()
+
+        logger.debug('Performing toplist browse for %s', identifier)
+        ToplistBrowser(b'tracks', bytes(identifier), callback, None)
+        if not done.wait(self._timeout):
+            logger.warning('%s toplist browse timed out.', identifier)
+
+        return result
 
     def find_exact(self, query=None, uris=None):
         return self.search(query=query, uris=uris)
@@ -89,10 +174,7 @@ class SpotifyLibraryProvider(base.BaseLibraryProvider):
         track = Link.from_string(uri).as_track()
         self._wait_for_object_to_load(track)
         if track.is_loaded():
-            if track.availability() == TRACK_AVAILABLE:
-                return [SpotifyTrack(track=track)]
-            else:
-                return []
+            return [SpotifyTrack(track=track)]
         else:
             return [SpotifyTrack(uri=uri)]
 
@@ -100,24 +182,18 @@ class SpotifyLibraryProvider(base.BaseLibraryProvider):
         album = Link.from_string(uri).as_album()
         album_browser = self.backend.spotify.session.browse_album(album)
         self._wait_for_object_to_load(album_browser)
-        return [
-            SpotifyTrack(track=t)
-            for t in album_browser if t.availability() == TRACK_AVAILABLE]
+        return [SpotifyTrack(track=t) for t in album_browser]
 
     def _lookup_artist(self, uri):
         artist = Link.from_string(uri).as_artist()
         artist_browser = self.backend.spotify.session.browse_artist(artist)
         self._wait_for_object_to_load(artist_browser)
-        return [
-            SpotifyTrack(track=t)
-            for t in artist_browser if t.availability() == TRACK_AVAILABLE]
+        return [SpotifyTrack(track=t) for t in artist_browser]
 
     def _lookup_playlist(self, uri):
         playlist = Link.from_string(uri).as_playlist()
         self._wait_for_object_to_load(playlist)
-        return [
-            SpotifyTrack(track=t)
-            for t in playlist if t.availability() == TRACK_AVAILABLE]
+        return [SpotifyTrack(track=t) for t in playlist]
 
     def _wait_for_object_to_load(self, spotify_obj, timeout=None):
         # XXX Sleeping to wait for the Spotify object to load is an ugly hack,

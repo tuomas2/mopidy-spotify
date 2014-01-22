@@ -3,11 +3,11 @@ Mopidy-Spotify
 **************
 
 .. image:: https://pypip.in/v/Mopidy-Spotify/badge.png
-    :target: https://crate.io/packages/Mopidy-Spotify/
+    :target: https://pypi.python.org/pypi/Mopidy-Spotify/
     :alt: Latest PyPI version
 
 .. image:: https://pypip.in/d/Mopidy-Spotify/badge.png
-    :target: https://crate.io/packages/Mopidy-Spotify/
+    :target: https://pypi.python.org/pypi/Mopidy-Spotify/
     :alt: Number of PyPI downloads
 
 .. image:: https://travis-ci.org/mopidy/mopidy-spotify.png?branch=master
@@ -26,7 +26,7 @@ Dependencies
 ============
 
 - A Spotify Premium subscription. Mopidy-Spotify **will not** work with Spotify
-  Free or Spotify Unlimited, just Spotify Premium.
+  Free, just Spotify Premium.
 
 - A non-Facebook Spotify username and password. If you created your account
   through Facebook you'll need to create a "device password" to be able to use
@@ -82,6 +82,8 @@ The following configuration values are available:
 - ``spotify/settings_dir``: The dir where the Spotify extension stores
   libspotify settings. Defaults to ``$XDG_CONFIG_DIR/mopidy/spotify``, which
   usually means ``~/.config/mopidy/spotify``.
+- ``spotify/toplist_countries``: Comma separated list of two letter country
+  domains to get toplists for.
 
 
 Project resources
@@ -94,6 +96,19 @@ Project resources
 
 Changelog
 =========
+
+v1.1.0 (2014-01-20)
+-------------------
+
+- Require Mopidy >= 0.18.
+
+- Change ``library.lookup()`` to return tracks even if they are unplayable.
+  There's no harm in letting them be added to the tracklist, as Mopidy will
+  simply skip to the next track when failing to play the track. (Fixes:
+  mopidy/mopidy#606)
+
+- Added basic library browsing support that exposes user, global and country
+  toplists.
 
 v1.0.3 (2013-12-15)
 -------------------
