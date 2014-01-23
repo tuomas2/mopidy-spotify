@@ -5,6 +5,9 @@ set -e
 
 case "$1" in
     configure)
+        chown mopidy:audio /var/cache/mopidy/spotify
+        chown mopidy:audio /var/lib/mopidy/spotify
+
         # spotify.conf may contain passwords and other confidential information
         chown mopidy:root /etc/mopidy/extensions.d/spotify.conf
         chmod 640 /etc/mopidy/extensions.d/spotify.conf

@@ -1,3 +1,9 @@
+mopidy-spotify (1.1.0-0mopidy2) unstable; urgency=low
+
+  * Fix permissions of /var/cache/mopidy/spotify and /var/lib/mopidy/spotify.
+
+ -- Stein Magnus Jodal <stein.magnus@jodal.no>  Fri, 24 Jan 2014 00:32:36 +0100
+
 mopidy-spotify (1.1.0-0mopidy1) unstable; urgency=low
 
   * New upstream release.
