@@ -97,6 +97,19 @@ Project resources
 Changelog
 =========
 
+v1.1.2 (2014-02-18)
+-------------------
+
+- Wait for track to be loaded before playing it. This fixes playback of tracks
+  looked up directly by URI, and not through a playlist or search. (Fixes:
+  mopidy/mopidy#675)
+
+v1.1.1 (2014-02-16)
+-------------------
+
+- Change requirement on pyspotify from ``>= 1.9, < 2`` to ``>= 1.9, < 1.999``,
+  so that it is parsed correctly and pyspotify 1.x is installed instead of 2.x.
+
 v1.1.0 (2014-01-20)
 -------------------
 
