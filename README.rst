@@ -43,19 +43,32 @@ Dependencies
 
 - ``Mopidy`` >= 0.16. The music server that Mopidy-Spotify extends.
 
-If you install Mopidy-Spotify from apt.mopidy.com, these dependencies are
-installed automatically.
+If you install Mopidy-Spotify from apt.mopidy.com, AUR, or Homebrew, these
+dependencies are installed automatically.
 
 
 Installation
 ============
 
-Install by running::
+Debian/Ubuntu/Raspbian: Install the ``mopidy-spotify`` package from
+`apt.mopidy.com <http://apt.mopidy.com/>`_::
+
+    sudo apt-get install mopidy-spotify
+
+Arch Linux: Install the ``mopidy-spotify`` package from
+`AUR <https://aur.archlinux.org/packages/mopidy-spotify/>`_::
+
+    sudo yaourt -S mopidy-spotify
+
+OS X: Install the ``mopidy-spotify`` package from the
+`mopidy/mopidy <https://github.com/mopidy/homebrew-mopidy>`_ Homebrew tap::
+
+    brew install mopidy-spotify
+
+Else: Install the dependencies listed above yourself, and then install the
+package from PyPI::
 
     pip install Mopidy-Spotify
-
-Or, if available, install the Debian/Ubuntu package from `apt.mopidy.com
-<http://apt.mopidy.com/>`_.
 
 
 Configuration
@@ -96,6 +109,15 @@ Project resources
 
 Changelog
 =========
+
+v1.2.0 (2014-07-21)
+-------------------
+
+- Add support for browsing playlists and albums. Needed to allow music
+  discovery extensions expose these in a clean way.
+
+- Fix loss of audio when resuming from paused, when caused by another Spotify
+  client starting playback. (Fixes: #2, PR: #19)
 
 v1.1.3 (2014-02-18)
 -------------------
